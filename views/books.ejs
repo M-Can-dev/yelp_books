@@ -1,0 +1,20 @@
+	<%- include("partials/header") %>
+
+
+		<div class="container">
+			
+			<div class="row">
+				<% books.forEach((book) => { %>
+				<div class="card m-3 shadow p-3 mb-5 bg-white rounded">
+					<a href="/books/<%= book._id %>">
+					<img class="card-img card-img-top" src="<%= book.image_link %>" alt="Pic of the book">
+					</a>
+					<h3 class="card-title mt-3"><%= book.title %></h3>
+					<h3 class="card-author"><%= book.author %></h3>
+					<!--<p class="card-text mb-3 mx-2 mt-2"><%= book.description %></p> -->
+				</div>
+				<% }) %>
+			</div>
+		</div>
+
+	<%- include("partials/footer") %>

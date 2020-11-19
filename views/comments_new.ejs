@@ -1,0 +1,17 @@
+<%- include("partials/header") %>
+
+<div class="container">
+	<h1>Add New Comment</h1>
+	<form action="/books/<%= bookId %>/comments" method="POST">
+		<div class="form-group">
+			<label for="text">Comment Text</label>
+			<textarea class="form-control" name="text" id="text" rows="8" cols="80" placeholder="Comment Here..." required ></textarea>
+		</div>
+		<input type="hidden" name="bookId" value="<%= bookId %>">
+		<button type="submit" class="btn btn-primary">
+			Submit
+		</button>
+	</form>
+</div>
+
+<%- include("partials/footer") %>
