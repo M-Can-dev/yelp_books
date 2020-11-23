@@ -20,31 +20,37 @@
 				</tr>
 			  </tbody>
 			</table>
-			<a href="/books/<%= book._id %>/edit">
-				<button class="btn btn-outline-info btn-lg btn-block mb-2">Edit</button>
-			</a>
+			<% if (user && user.username === book.owner.username) { %>
 			
-			<form action="/books/<%= book._id %>?_method=DELETE" method="POST">
-				<button type="submit" class="btn btn-outline-danger btn-lg btn-block mb-2">Delete</button>
-			</form>			
+				<a href="/books/<%= book._id %>/edit">
+					<button class="btn btn-outline-info btn-lg btn-block mb-2">Edit</button>
+				</a>
+				<form action="/books/<%= book._id %>?_method=DELETE" method="POST">
+					<button type="submit" class="btn btn-outline-danger btn-lg btn-block mb-2">Delete</button>
+				</form>	
+			<% } %>
 		</div>
 	</div>
 	<div class="row show_comment-header mt-3">
 		Comment Header
 	</div>
-	<a href="/books/<%= book._id %>/comments/new"><button class="btn btn-success btn-lg mb-4">Add Comment</button></a>
+	<% if (user) { %>
+		<a href="/books/<%= book._id %>/comments/new"><button class="btn btn-success btn-lg mb-4">Add Comment</button></a>
+	<% } %> 
 	<% comments.forEach((comment => { %>
 	<div class="media mb-4">
 	  <div class="media-body border pl-2 pt-1">
 		<h5 class="mt-0"><%= comment.user.username %></h5>
 		<p class="col-9 p-0"><%= comment.text %></p>
 		<div class="btn-group" role="group" aria-label="Basic example">
-		  <form >
-		  	<a href="/books/<%= book._id %>/comments/<%= comment._id %>/edit" class="btn btn-sm btn-outline-info mr-1">Edit</a>
-		  </form>
-		  <form action="/books/<%= book._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-			<button class="btn btn-sm btn-outline-danger">Delete</button> 
-		  </form>  
+		<% if (user && comment.user.username === user.username) { %>
+			  <form >
+				<a href="/books/<%= book._id %>/comments/<%= comment._id %>/edit" class="btn btn-sm btn-outline-info mr-1">Edit</a>
+			  </form>
+			  <form action="/books/<%= book._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+				<button class="btn btn-sm btn-outline-danger">Delete</button> 
+			  </form>  
+		<% } %>
 		</div>
 	  </div>
 	</div>
