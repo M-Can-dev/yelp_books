@@ -65,7 +65,19 @@ router.get("/search", async (req, res) => {
 	}
 })
 
-
+//Genre
+router.get("/genre/:genre", async (req, res) => {
+	//Check if the given genre is valid
+	const validGenres = ["fiction", "fantasy", "history", "mystery", "science-fiction", "biography", "crime", "educational"];
+	if (validGenres.includes(req.params.genre.toLowerCase())) {
+		//If yes continue
+		const books = await Book.find({genre: req.params.genre}).exec();
+		res.render("books", {books});
+	} else {
+		//If no, send error
+		res.send("Please enter a valid genre")
+	}	
+})
 
 // Show Book
 router.get("/:id", async (req, res) => {	
