@@ -57,3 +57,22 @@
     </form>
   </div>
 </nav>
+<div class="mt-1">
+	<% if (successMessage && successMessage.length > 0) { %>
+	<div class="alert alert-success alert-dismissible fade show" role="alert">
+		<%= successMessage %>
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+<% } %>
+<% if(errorMessage && errorMessage.length > 0) { %>
+	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+	  <%= errorMessage %>
+	  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+<% } %>
+</div>
+
