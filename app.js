@@ -13,6 +13,7 @@ const morgan = require('morgan')
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const expressSession = require("express-session");
+const flash = require("connect-flash");
 
 // Config Import
 try {
@@ -74,6 +75,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 // Method Override Config
 app.use(methodOverride('_method'));
+
+//Connect flash 
+app.use(flash());
 
 //Passport Config
 app.use(passport.initialize()); // Initialization
