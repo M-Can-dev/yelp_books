@@ -24,7 +24,7 @@ router.post("/", isLoggedIn, (req, res) =>{
 	.then((comment) =>{
 		console.log(comment)
 		res.redirect(`/books/${req.body.bookId}`)
-	})
+	}) 
 	
 	.catch((err) =>{
 		console.log(err)

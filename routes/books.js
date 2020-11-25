@@ -41,11 +41,13 @@ router.post("/", isLoggedIn, async (req, res) => {
 	
 	try {
 		const book = await Book.create(newBook);
+		req.flash("success", `Succesfully added ${newBook.title}`)
 		console.log(book);
 		res.redirect("/books/" + book._id);
+		
 	} catch(err) {
-		console.log(err);
-		res.send("Error... posting");
+		req.flash("error", "Error creating book");
+		res.redirect("/books");
 	}
 })	
 
@@ -113,11 +115,13 @@ router.put("/:id", checkBookOwner, async (req, res) =>{
 	}
 	try{
 		const updatedBook = await Book.findByIdAndUpdate(req.params.id, book, {new: true}).exec();
+		req.flash("success", `${book.title} updated`);
 		console.log(updatedBook);
 		res.redirect(`/books/${req.params.id}`);
 	} catch (err) {
 		console.log(err);
-		res.send("Error...updating");
+		req.flash("error", "Error updating book");
+		res.redirect("/:id");
 	}
 })
 
@@ -126,11 +130,13 @@ router.put("/:id", checkBookOwner, async (req, res) =>{
 router.delete("/:id", checkBookOwner, async (req, res) =>{
 	try{
 		const deletedBook = await Book.findByIdAndDelete(req.params.id).exec();
+		req.flash("error", "Book deleted.")
 		console.log("Deleted: ", deletedBook)
 		res.redirect("/books")	
 	} catch(err) {
 		console.log(err);
-		res.send("Error...deleting");
+		req.flash("error", "Error deleting book");
+		res.redirect("/books");
 	}
 
 })
