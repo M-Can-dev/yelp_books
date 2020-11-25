@@ -89,8 +89,9 @@ passport.use(new LocalStrategy(User.authenticate()));
 //State config
 app.use((req, res, next) =>{
 	res.locals.user = req.user;
-	res.locals.errorMessage = req.flash("error");
+	res.locals.warningMessage = req.flash("warning");
 	res.locals.successMessage = req.flash("success");
+	res.locals.errorMessage = req.flash("error");
 	next();
 });
 
