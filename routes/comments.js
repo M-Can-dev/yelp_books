@@ -22,32 +22,40 @@ router.post("/", isLoggedIn, (req, res) =>{
 
 	Comment.create(newComment)
 	.then((comment) =>{
-		console.log(comment)
+		req.flash("success", "Comment created!");
 		res.redirect(`/books/${req.body.bookId}`)
 	}) 
 	
 	.catch((err) =>{
-		console.log(err)
+		req.flash("error", "Error creating comment. Please try again.");
 		res.redirect(`/books/${req.body.bookId}`)
 	})
 })
 
 
 router.get("/:commentId/edit", checkCommentOwner, async (req, res) =>{
+	try {
 		const book = await Book.findById(req.params.id).exec();
 		const comment = await Comment.findById(req.params.commentId).exec();
 		res.render("comments_edit", {book, comment});
+	} catch (err) {
+		console.log(err);
+		res.redirect(`/books/${req.body.bookId}`)
+	}
+		
 
 })
 
 router.put("/:commentId", checkCommentOwner,  async (req, res) => {
 	try {
 		const updatedComment = await Comment.findByIdAndUpdate(req.params.commentId, {text: req.body.text}, {new: true}).exec();
+		req.flash("success", "Comment edited!");
 		console.log(updatedComment);
 		res.redirect(`/books/${req.params.id}`);
 	} catch(err) {
 		console.log(err);
-		res.send("Error...posting comment edit");
+		req.flash("error", "Error editing comment. Please try again.")
+		res.redirect("/books");
 	}
 })
 
@@ -55,10 +63,12 @@ router.delete("/:commentId", checkCommentOwner, async (req, res) => {
 	try {
 		const deletedComment = await Comment.findByIdAndDelete(req.params.commentId).exec();
 		console.log(deletedComment);
+		req.flash("success", "Comment deleted.");
 		res.redirect(`/books/${req.params.id}`);
 	} catch(err) {
 		console.log(err);
-		res.send("Error...deleting comment");
+		req.flash("error", "Error deleting comment");
+		res.redirect("/books");
 	}
 })
 
