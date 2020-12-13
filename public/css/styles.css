@@ -1,11 +1,14 @@
+
+
 /* Cards ======================== */
 
 .card {
 	background-color: steelblue;
 	border-radius: 1.5rem;
-	width: 30%; 
+	width: 30%;
 	
 }
+
 
 .card-img {
 	width: 100%;
@@ -35,10 +38,16 @@
 	line-height: 1.4;
 }
 
+
+
 /* Show =================================== */
 
 .show_image-container img {
 	width: 80%;
 	height: 35rem;
 	
+}
+
+.landing_header {
+	margin-top: 20%;
 }

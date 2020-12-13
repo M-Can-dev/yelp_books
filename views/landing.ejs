@@ -1,8 +1,23 @@
-<h1>
-	Landing page !
-</h1>
+<%- include("partials/header_landing") %>
+<body class="landing">
 <div class="container">
-	<form action="/books">
-		<button type="submit" class="btn btn-outline-info btn-lg btn-block mb-2">Books</button>
-	</form>		
+	<div class="bck-img">
+		<h1 class="text-center landing_header">
+		  Welcome to Book<span class="text-muted">Nook</span>
+		</h1>
+		<p class="text-center">
+			Get started...
+		</p>
+		<div class="d-flex justify-content-center">
+			<form action="/books">
+				<button type="submit" class="btn btn-outline-secondary btn-lg mb-2 mt-2 ">Books</button>
+			</form>		
+	
+		</div>
+
+	</div>
+
+
 </div>
+
+<%- include("partials/footer") %>
