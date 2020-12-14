@@ -31,9 +31,15 @@
 			<% } %>
 		</div>
 	</div>
-	<div class="row show_comment-header mt-3">
-		Comment Header
+	<div class="row">
+
+		<div class="col-2 mt-2 mb-2">
+			<button id="upvote-btn" class=" btn btn-outline-success">+</button>
+			<span>10</span>
+			<button id="downvote-btn" class=" btn btn-outline-danger">-</button>
+		</div>
 	</div>
+
 	<% if (user) { %>
 		<a href="/books/<%= book._id %>/comments/new"><button class="btn btn-success btn-lg mb-4">Add Comment</button></a>
 	<% } %> 
