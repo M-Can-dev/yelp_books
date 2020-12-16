@@ -84,12 +84,15 @@ router.get("/genre/:genre", async (req, res) => {
 })
 
 //Vote
-router.post("/vote", isLoggedIn, (req, res) => {
-	console.log(req.body)
-	res.json({
-		message: "Voted!"
-	});
-})
+router.post("/vote", isLoggedIn, async (req, res) => {
+	console.log("Request body", req.body)
+
+	
+	const book = await Book.findById(req.body.bookId)
+	console.log(book);
+	
+	res.json(book);
+});
 
 // Show Book
 router.get("/:id", async (req, res) => {	
