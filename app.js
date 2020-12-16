@@ -9,7 +9,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
-const morgan = require('morgan')
+//const morgan = require('morgan')
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const expressSession = require("express-session");
@@ -39,7 +39,7 @@ const User = require("./models/user");
 //====================
 // DEV
 //====================
-app.use(morgan('tiny'));
+//app.use(morgan('tiny'));
 
 //Seed the DB
 //const seed = require("./utils/seed")
@@ -62,6 +62,9 @@ try {
 // Express Config
 app.set("view engine", "ejs");
 app.use(express.static('public'));
+app.use(express.json({
+	type: ["application/json", "text/plain"]
+}));
 
 //Express Session config
 app.use(expressSession({
