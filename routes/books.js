@@ -86,12 +86,60 @@ router.get("/genre/:genre", async (req, res) => {
 //Vote
 router.post("/vote", isLoggedIn, async (req, res) => {
 	console.log("Request body", req.body)
-
+	
+	
 	
 	const book = await Book.findById(req.body.bookId)
-	console.log(book);
+	const alreadyUpvoted = book.upvotes.indexOf(req.user.username) // will be -1 if not found
+	const alreadyDownvoted = book.downvotes.indexOf(req.user.username) // will be -1 if not found
 	
-	res.json(book);
+	let response = {}
+	//Voting logic
+	if(alreadyUpvoted === -1 && alreadyDownvoted === -1) { // If user did not voted
+		if( req.body.voteType === "up") { // Upvoted
+			book.upvotes.push(req.user.username);
+			book.save()
+			response.message = "Upvote tallied!"
+		} else if (req.body.voteType === "down") {
+			book.downvotes.push(req.user.username);
+			book.save()
+			response.message = "Downvote tallied!"
+		} else { // Error
+			response.message = "Error 1"
+		}
+	} else if (alreadyUpvoted >= 0) { //If user upvote
+		if (req.body.voteType === "up" ) {
+			book.upvotes.splice(alreadyUpvoted, 1);
+			book.save();
+			response.message = "Upvote removed"
+		} else if (req.body.voteType === "down") {
+			book.upvotes.splice(alreadyUpvoted, 1);
+			book.downvotes.push(req.user.username);
+			book.save();
+			response.message = "Changed to downvote"
+		} else {
+			response.message = "Error 2"
+		}
+		
+	} else if (alreadyDownvoted >= 0 ) { // If user downvoted
+		if (req.body.voteType === "up") {
+			book.downvotes.splice(alreadyDownvoted, 1);
+			book.upvotes.push(req.user.username);
+			book.save();
+			response.message = "Changed to upvote";
+		} else if (req.body.voteType === "down" ) {
+			book.downvotes.splice(alreadyDownvoted, 1);
+			book.save();
+			response.message = "Downvote removed"
+		} else {
+			response.message = "Error 3"
+		}
+		
+	} else { // Error
+		response.message = "Error 4"
+	}
+	
+	res.json(response);
 });
 
 // Show Book

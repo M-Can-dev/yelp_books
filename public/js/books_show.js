@@ -23,7 +23,7 @@ const sendVote = async (voteType) => {
 		});
 	} else if (voteType === "down") {
 		options.body = JSON.stringify({
-			vote: "down",
+			voteType: "down",
 			bookId
 		});
 	} else {
