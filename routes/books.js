@@ -99,26 +99,26 @@ router.post("/vote", isLoggedIn, async (req, res) => {
 		if( req.body.voteType === "up") { // Upvoted
 			book.upvotes.push(req.user.username);
 			book.save()
-			response.message = "Upvote tallied!"
+			response = {message: "Upvote tallied", code: 1};
 		} else if (req.body.voteType === "down") {
 			book.downvotes.push(req.user.username);
 			book.save()
-			response.message = "Downvote tallied!"
+			response = {message: "Downvote tallied!", code: -1}
 		} else { // Error
-			response.message = "Error 1"
+			response = {message: "Error 1", code: "err"}
 		}
 	} else if (alreadyUpvoted >= 0) { //If user upvote
 		if (req.body.voteType === "up" ) {
 			book.upvotes.splice(alreadyUpvoted, 1);
 			book.save();
-			response.message = "Upvote removed"
+			response = {message: "Upvote removed", code: 0};
 		} else if (req.body.voteType === "down") {
 			book.upvotes.splice(alreadyUpvoted, 1);
 			book.downvotes.push(req.user.username);
 			book.save();
-			response.message = "Changed to downvote"
+			response = {message: "Changed to downvote", code: -1} 
 		} else {
-			response.message = "Error 2"
+			response = {message: "Error 2", code: "err"};
 		}
 		
 	} else if (alreadyDownvoted >= 0 ) { // If user downvoted
@@ -126,18 +126,21 @@ router.post("/vote", isLoggedIn, async (req, res) => {
 			book.downvotes.splice(alreadyDownvoted, 1);
 			book.upvotes.push(req.user.username);
 			book.save();
-			response.message = "Changed to upvote";
+			response = {message:"Changed to upvote", code: 1} ;
 		} else if (req.body.voteType === "down" ) {
 			book.downvotes.splice(alreadyDownvoted, 1);
 			book.save();
-			response.message = "Downvote removed"
+			response =  {message: "Downvote removed", code: 0};
 		} else {
-			response.message = "Error 3"
+			response = {message: "Error 3", code: "err"} ;
 		}
 		
 	} else { // Error
-		response.message = "Error 4"
+		response = {message: "Error 4", code:"err"}; 
 	}
+	
+	//Update score
+	response.score = book.upvotes.length - book.downvotes.length;
 	
 	res.json(response);
 });

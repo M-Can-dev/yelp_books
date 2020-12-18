@@ -34,11 +34,15 @@
 	<div class="row">
 
 		<div class="col-2 mt-2 mb-2">
-			<% if (user) { %>
+			<% if (user && book.upvotes.includes(user.username)) { %>
+				<button id="upvote-btn" class=" btn btn-success">+</button>
+			<% } else if (user) { %>
 				<button id="upvote-btn" class=" btn btn-outline-success">+</button>
 			<% } %>
-			<span>10</span>
-			<% if (user) { %>
+			<span id="score"><%= book.upvotes.length - book.downvotes.length %> </span>
+			<% if (user && book.downvotes.includes(user.username)) { %>
+				<button id="downvote-btn" class=" btn btn-danger">-</button>
+			<% } else if (user) { %>
 				<button id="downvote-btn" class=" btn btn-outline-danger">-</button>
 			<% } %>
 		</div>
